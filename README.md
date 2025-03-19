@@ -85,7 +85,7 @@ Idea
 ===
 
 - parameters in `postgresql.conf` have a higher precedence over the extensions
-  - # FIXME: - use extension, if param value == defaults?? (even it's included in postgresql.conf?) -> useful for just 1-line config change, however not cool is some OS changes defaults.
+  - FIXME: - use extension, if param value == defaults?? (even it's included in postgresql.conf?) -> useful for just 1-line config change, however not cool is some OS changes defaults.
   - select * from pg_file_settings;"
 
 So suggested installation:
@@ -112,13 +112,17 @@ Templating example
   -  ??? inspiration from ? cel.dev / Jinja2 / Mustache ? ( too complex, but anything "standard-like" with C-bindings would do)
 
 
-    # AWS https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/AuroraPostgreSQL.Reference.ParameterGroups.html
+    # AWS
+    https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/AuroraPostgreSQL.Reference.ParameterGroups.html
     effective_cache_size = SUM(DBInstanceClassMemory/12038,-50003)
     maintenance_work_mem = GREATEST(DBInstanceClassMemory/63963136*1024,65536)
     max_parallel_workers = GREATEST($DBInstanceVCPU/2,8)
 
 
-    # pgtune example of more complex logic (TS/JS) https://github.com/le0pard/pgtune/blob/master/src/features/configuration/configurationSlice.js
+    # pgtune example of more complex logic (TS/JS)
+    https://github.com/le0pard/pgtune/blob/master/src/features/configuration/configurationSlice.js
+
+    ```
     createSelector([selectSharedBuffers], (sharedBuffersValue) => {
         // Follow auto-tuning guideline for wal_buffers added in 9.1, where it's
         // set to 3% of shared_buffers up to a maximum of 16MB.
@@ -140,6 +144,7 @@ Templating example
         }
         return walBuffersValue
     })
+    ```
 
 TODO
 ===
