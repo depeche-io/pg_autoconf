@@ -114,9 +114,12 @@ Templating example
 
     # AWS
     https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/AuroraPostgreSQL.Reference.ParameterGroups.html
+
+    ```
     effective_cache_size = SUM(DBInstanceClassMemory/12038,-50003)
     maintenance_work_mem = GREATEST(DBInstanceClassMemory/63963136*1024,65536)
     max_parallel_workers = GREATEST($DBInstanceVCPU/2,8)
+    ```
 
 
     # pgtune example of more complex logic (TS/JS)
@@ -160,11 +163,11 @@ Brainstorming
 - Feature: provide log warning for "config value too low?"
 - "default" in pg_settings
 - EDB work_mem tuning with pg_stat_statements enabled behind the scenes? new_work_mem = ceil(max(1.75 * previous_sort_spill, 5.0 * previous_hash_spill))
+  - work_mem - https://www.enterprisedb.com/docs/pg_extensions/pg_tuner/using/#auto-tuning-work_mem
 
 
 Known Problems
 ===
-- work_mem - https://www.enterprisedb.com/docs/pg_extensions/pg_tuner/using/#auto-tuning-work_mem
 - disallow for `session_preload_libraries` ???
 - shared_preload_libraries position???
 
