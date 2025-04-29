@@ -321,14 +321,6 @@ AutoconfBackgroundWorker(Datum main_arg)
 
 
 
-// config options [SELECT ] 1 [FROM fake_autconf_single_row_table]
-// guc1 = 1
-// guc1 = 1+1
-// guc1 = 1+1+"FAKE_COLUMN_AS_SINGLE_ROW_VARIABLE"
-// guc1 = (SELECT 1)
-// guc1 = (SELECT 1+1)
-// guc1 = (SELECT ... some system catalog perhaps..)
-
 /***
  * 
  *  "select * from pg_autoconf_recommendations;"

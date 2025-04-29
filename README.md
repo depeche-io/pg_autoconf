@@ -107,6 +107,14 @@ Templating example
 
   maintenance_work_mem = SELECT GREATEST(DBInstanceClassMemory/63963136*1024,65536);
 
+  config options [SELECT ] 1 [FROM fake_autconf_single_row_table]
+  guc1 = 1
+  guc1 = 1+1
+  guc1 = 1+1+"FAKE_COLUMN_AS_SINGLE_ROW_VARIABLE"
+  guc1 = (SELECT 1)
+  guc1 = (SELECT 1+1)
+  guc1 = (SELECT ... some system catalog perhaps..)
+
 
   2. variant - custom templates:
   -  ??? inspiration from ? cel.dev / Jinja2 / Mustache ? ( too complex, but anything "standard-like" with C-bindings would do)
