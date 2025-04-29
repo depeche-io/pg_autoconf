@@ -6,13 +6,13 @@ PostgreSQL is notoriously know for a super conservative defaults that are kept f
 Main goals:
 - easy install
 - provide sensible default based on OS, system resources and other factors out of the box for 95% of OLTP workloads
-- allow customization of configuration set via Profiles (?)
+- allow customization of configuration set via templating - Profiles (?)
 - play nice with other tooling like K8s operators and Patroni -> if possible, restart or changing the `postgresql.conf` is not required
 - 2 modes (must be even possible to combine them partially) - only recommendations vs. apply directly
 
 Project stages:
 - POC
-  - Is the idea possible? Yes - https://www.enterprisedb.com/docs/pg_extensions/pg_tuner/using/#automatic-tuning
+  - Is the idea possible? Yes for GUCs without a restart at least - https://www.enterprisedb.com/docs/pg_extensions/pg_tuner/using/#automatic-tuning
   - create basic extension that is able to change GUC on startup according to templates.  
   - replace template variables with basic OS and other metrics
   - main problem: GUCs requiring restart vs. others
@@ -78,7 +78,7 @@ postgresql.conf:
 ```
 shared_preload_libraries = 'pg_autoconf'
 # not needed
-#pg_autoconf.profiles='conservative16' # or others preinstalled, or filename
+#pg_autoconf.profiles='oltp-conservative-16' # or others preinstalled, or filename
 ```
 
 Idea
@@ -98,16 +98,18 @@ Templating example
 - Templating language
   - major feature == readability
 
-  - might be actually 2 kinds: for Postmaster GUCs (on startup requiring restart otherwise) vs. all runtime GUCs
+  - might be actually 2 kinds: for Postmaster GUCs (on startup requiring restart otherwise) vs. all runtime changeable GUCs
 
   1. variant - use SQL
   - not available for "startup" - shared_buffers?
   - not a great readability for more complicated logic
   - very convenient for DBAs
+  - probably will require a background worker thread and calling `pg_reload_conf()` (?)
 
   maintenance_work_mem = SELECT GREATEST(DBInstanceClassMemory/63963136*1024,65536);
 
   config options [SELECT ] 1 [FROM fake_autconf_single_row_table]
+  guc1 = SYSTEM_MEMORY / 4
   guc1 = 1
   guc1 = 1+1
   guc1 = 1+1+"FAKE_COLUMN_AS_SINGLE_ROW_VARIABLE"
@@ -169,7 +171,7 @@ Brainstorming
 - Run some simple benchmark for the first time running PG to get disk performance for example ???
     - better example - run benchmark to enable pg_stats_io (which is safe 99.99% cases, except..)
 - Feature: provide log warning for "config value too low?"
-- "default" in pg_settings
+- "default" flag in pg_settings
 - EDB work_mem tuning with pg_stat_statements enabled behind the scenes? new_work_mem = ceil(max(1.75 * previous_sort_spill, 5.0 * previous_hash_spill))
   - work_mem - https://www.enterprisedb.com/docs/pg_extensions/pg_tuner/using/#auto-tuning-work_mem
 
@@ -177,7 +179,7 @@ Brainstorming
 Known Problems
 ===
 - disallow for `session_preload_libraries` ???
-- shared_preload_libraries position???
+- shared_preload_libraries position to other extensions (should be last)???
 
 Merch
 ===
