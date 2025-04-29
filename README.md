@@ -1,7 +1,18 @@
 PG AutoConf / AutoTune extension / PG BetterDefaults / pg_sane_defaults ???
 ====
 
-PostgreSQL is notoriously know for a super conservative defaults that are kept for years and IMHO 99% workloads need to be tuned even with a basic parameters.
+TL;DR;
+===
+PostgreSQL is notoriously know for a super conservative defaults that are kept for years and IMHO 99% workloads need to be tuned even with a basic parameters. This is very different in comparison to a lot of other systems that have typically some level of conservative auto-tuning based on the current runtime environment.
+
+I believe that the vast majority of PG instances is running some generic untailored configuration defined either on OS-package or distro-level. For IaaC tooling it seems that DBAs typically have some "generic smart defaults" that is significantly better than plain default but again is not leveraging a specific PG-version features, environment resources etc. 
+
+So this extension is aimed for typical always-busy DBAs. It's enabled once, does the tuning of defaults "reasonably well" for typical use-cases and there is always an option to override any of the desired configuration by DBA.
+
+
+Longer Version
+===
+
 
 Main goals:
 - easy install
