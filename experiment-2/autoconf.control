@@ -1,0 +1,5 @@
+# dblink extension
+comment = 'automagically configure the database'
+default_version = '1.0'
+module_pathname = '$libdir/autoconf'
+relocatable = true
