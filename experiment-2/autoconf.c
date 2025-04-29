@@ -121,6 +121,7 @@ void _PG_init(void)
 
 	BackgroundWorker worker;
 
+	// FIXME: or alternative non-sql approach from pg_cron???
 	MemSet(&worker, 0, sizeof(BackgroundWorker));
 	worker.bgw_flags = BGWORKER_SHMEM_ACCESS | BGWORKER_BACKEND_DATABASE_CONNECTION;
 	worker.bgw_start_time = BgWorkerStart_RecoveryFinished;
